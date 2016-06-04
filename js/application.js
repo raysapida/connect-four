@@ -2,13 +2,13 @@ $(document).ready(function() {
   var turn = 1;
   var player;
   var board = [
-    new Array(6),
-    new Array(6),
-    new Array(6),
-    new Array(6),
-    new Array(6),
-    new Array(6),
-    new Array(6)
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
+    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0)
   ];
 
   $('#board').on('click', '.drop', function (event) {
@@ -20,19 +20,18 @@ $(document).ready(function() {
     }
 
     var col = $(this).parent().attr('id')
-    var colNum = checkCol(col);
+    var colNum = returnColNum(col);
 
     for(var i = 1; i < 8; i++){
       var currentNode = $(this).parent().children()[i];
       if ($(currentNode).hasClass('red') || $(currentNode).hasClass('yellow') || i ==7 ) {
-          board[colNum][i] = player
-          var prevNode = $(this).parent().children()[i-1];
-          $(prevNode).addClass(player)
-          break;
+        board[colNum][i] = player
+        var prevNode = $(this).parent().children()[i-1];
+        $(prevNode).addClass(player)
+        break;
       }
     }
-
-    console.log(board);
+    checkCol(board, player);
     turn ++;
   });
 });
@@ -45,6 +44,14 @@ function isOdd(number) {
   }
 }
 
-function checkCol(column) {
+function returnColNum(column) {
   return 'abcdefg'.indexOf(column);
 }
+
+function checkCol(board, player) {
+  board.forEach(function(column){
+    if (column.join('').match(Array(5).join(player))){
+      alert(player+'  wins');
+    }
+  });
+};
