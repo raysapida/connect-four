@@ -1,0 +1,27 @@
+.circle {
+  margin: 5px;
+  width:40px;
+  height:40px;
+  border-radius:20px;
+  font-size:8px;
+  color:#fff;
+  line-height:40px;
+  text-align:center;
+  background: lightgrey;
+}
+
+#a, #b, #c, #d, #e, #f, #g{
+  float: left;
+}
+
+.drop {
+  background: darkslategrey;
+}
+
+.red {
+  background: firebrick;
+}
+
+.yellow {
+  background: goldenrod;
+}
