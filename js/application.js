@@ -32,6 +32,7 @@ $(document).ready(function() {
       }
     }
     checkCol(board, player);
+    checkRow(board, player);
     turn ++;
   });
 });
@@ -55,3 +56,16 @@ function checkCol(board, player) {
     }
   });
 };
+
+function checkRow(board, player) {
+  var transposedBoard= board[0].map(function(column, i) {
+    return board.map(function(row) {
+      return row[i]
+    })
+  });
+  transposedBoard.forEach(function(column){
+    if (column.join('').match(Array(5).join(player))){
+      alert(player+'  wins');
+    }
+  });
+}
