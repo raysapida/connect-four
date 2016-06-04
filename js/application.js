@@ -10,9 +10,10 @@ $(document).ready(function() {
     }
 
     for(var i = 1; i < 8; i++){
-      console.log($($(this).parent().children()[i]));
-      if ($($(this).parent().children()[i]).hasClass('red') || $($(this).parent().children()[i]).hasClass('yellow') || i ==7 ) {
-        $($(this).parent().children()[i-1]).addClass(player)
+      var currentNode = $(this).parent().children()[i];
+      if ($(currentNode).hasClass('red') || $(currentNode).hasClass('yellow') || i ==7 ) {
+        var prevNode = $(this).parent().children()[i-1];
+        $(prevNode).addClass(player)
         break;
       }
     }
