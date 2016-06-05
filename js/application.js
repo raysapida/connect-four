@@ -12,28 +12,32 @@ $(document).ready(function() {
   ];
 
   $('#board').on('click', '.drop', function (event) {
-    event.preventDefault();
-    if (isOdd(turn)) {
-      player = 'yellow';
-    } else {
-      player = 'red';
-    }
-
-    var col = $(this).parent().attr('id')
-    var colNum = returnColNum(col);
-
-    for(var i = 1; i < 8; i++){
-      var currentNode = $(this).parent().children()[i];
-      if ($(currentNode).hasClass('red') || $(currentNode).hasClass('yellow') || i ==7 ) {
-        board[colNum][i] = player
-        var prevNode = $(this).parent().children()[i-1];
-        $(prevNode).addClass(player)
-        break;
+    var lastCircle = $(this).parent().children()[1];
+    if (!($(lastCircle).hasClass('red') || $(lastCircle).hasClass('yellow'))) {
+      event.preventDefault();
+      if (isOdd(turn)) {
+        player = 'yellow';
+      } else {
+        player = 'red';
       }
+
+      var col = $(this).parent().attr('id')
+      var colNum = returnColNum(col);
+
+      for(var i = 1; i < 8; i++){
+        var currentNode = $(this).parent().children()[i];
+        if ($(currentNode).hasClass('red') || $(currentNode).hasClass('yellow') || i ==7 ) {
+          board[colNum][i] = player
+          var prevNode = $(this).parent().children()[i-1];
+          $(prevNode).addClass(player)
+          break;
+        }
+      }
+      checkCol(board, player);
+      checkRow(board, player);
+      checkDiagnal(board, player);
+      turn ++;
     }
-    checkCol(board, player);
-    checkRow(board, player);
-    turn ++;
   });
 });
 
@@ -68,4 +72,7 @@ function checkRow(board, player) {
       alert(player+'  wins');
     }
   });
+}
+
+function checkDiagnal(board, player) {
 }
