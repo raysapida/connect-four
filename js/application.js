@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var turn = 1;
   var player;
-  var board = Array.matrix(6, 8, 0);
+  var board = Array.matrix(7, 8, 0);
 
   $('#board').on('click', '.drop', function (event) {
     var lastCircle = $(this).parent().children()[1];
@@ -48,7 +48,7 @@ function returnColNum(column) {
 function checkCol(board, player) {
   board.forEach(function(column){
     if (column.join('').match(Array(5).join(player))){
-      alert(player+'  wins');
+      $('#winner').html(player+' wins!');
     }
   });
 };
@@ -61,7 +61,7 @@ function checkRow(board, player) {
   });
   transposedBoard.forEach(function(column){
     if (column.join('').match(Array(5).join(player))){
-      alert(player+'  wins');
+      $('#winner').html(player+' wins!');
     }
   });
 }
