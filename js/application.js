@@ -1,15 +1,7 @@
 $(document).ready(function() {
   var turn = 1;
   var player;
-  var board = [
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0),
-    Array.apply(null, Array(6)).map(Number.prototype.valueOf,0)
-  ];
+  var board = Array.matrix(6, 8, 0);
 
   $('#board').on('click', '.drop', function (event) {
     var lastCircle = $(this).parent().children()[1];
@@ -75,4 +67,16 @@ function checkRow(board, player) {
 }
 
 function checkDiagnal(board, player) {
+}
+
+Array.matrix = function(numrows, numcols, initial) {
+  var arr = []
+  for (var i  = 0; i < numrows; i++){
+    var columns = [];
+    for (var j = 0; j < numcols; j++){
+      columns[j] = initial;
+    }
+    arr[i] = columns;
+  }
+  return arr;
 }
