@@ -1,7 +1,7 @@
 $(document).ready(function() {
   var turn = 0;
   var player;
-  var board = Array.matrix(7, 8, 0);
+  var board = Array.matrix(7, 6, 0);
 
   $('#board').on('click', '.drop', function (event) {
     event.preventDefault();
@@ -13,15 +13,15 @@ $(document).ready(function() {
       var col = $(this).parent().attr('id');
       var colNum = returnColNum(col);
 
-      for(var i = 1; i < 8; i++){
+      for(var i = 2; i < 8; i++){
         var currentNode = $(this).parent().children()[i];
         if ($(currentNode).hasClass('red') || $(currentNode).hasClass('yellow') || i ==7 ) {
-          board[colNum][i] = player;
+          board[colNum][i-2] = player;
           var prevNode = $(this).parent().children()[i-1];
           $(prevNode).addClass(player);
           checkCol(board, player);
           checkRow(board, player);
-          checkDiagnal(board, player);
+          checkDiagnal(board, player, colNum, (i-2));
           return;
         }
       }
@@ -56,13 +56,53 @@ function checkRow(board, player) {
     });
   });
   transposedBoard.forEach(function(column){
+    //console.log(column.join(''));
     if (column.join('').match(Array(5).join(player))){
       $('#winner').html(player+' wins!');
     }
   });
 }
 
-function checkDiagnal(board, player) {
+function checkDiagnal(board, player, x, y) {
+  if (y < 3) {
+    var start = startingPoint(x+y);
+    var result ='';
+    var i = start[0];
+    var j = start[1];
+    for(var a = 0; a < 5; a++){
+      result += board[i][j];
+      i ++;
+      j --;
+    }
+    if (result.match(Array(5).join(player))){
+      $('#winner').html(player+' wins!');
+    }
+  }
+}
+
+function startingPoint(sum) {
+  switch(sum) {
+    case 3:
+      return [0,3];
+      break;
+    case 4:
+      return [0,4];
+      break;
+    case 5:
+      return [0,5];
+      break;
+    case 6:
+      return [1,5];
+      break;
+    case 7:
+      return [2,5];
+      break;
+    case 8:
+      return [3,5];
+      break;
+    default:
+      console.log('default');
+  }
 }
 
 Array.matrix = function(numrows, numcols, initial) {
