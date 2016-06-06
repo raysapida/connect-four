@@ -7,8 +7,8 @@ $(document).ready(function() {
     event.preventDefault();
     var lastCircle = $(this).parent().children()[1];
     if (!($(lastCircle).hasClass('red') || $(lastCircle).hasClass('yellow'))) {
-      turn ++;
       player = isOdd(turn) ? 'yellow' : 'red';
+      turn ++;
 
       var col = $(this).parent().attr('id');
       var colNum = returnColNum(col);
@@ -22,6 +22,7 @@ $(document).ready(function() {
           checkCol(board, player);
           checkRow(board, player);
           checkDiagnal(board, player, colNum, (i-2));
+          checkReverseDiagnal(board, player, colNum, (i-2));
           return;
         }
       }
@@ -64,19 +65,57 @@ function checkRow(board, player) {
 }
 
 function checkDiagnal(board, player, x, y) {
-  if (y < 3) {
+  if (y < 3 && x > 2) {
     var start = startingPoint(x+y);
     var result ='';
-    var i = start[0];
     var j = start[1];
-    for(var a = 0; a < 5; a++){
+    for(var i = start[0]; i < 6; i++){
       result += board[i][j];
-      i ++;
+      if (i == 6 || j ==0){
+        break;
+      }
       j --;
     }
     if (result.match(Array(5).join(player))){
       $('#winner').html(player+' wins!');
     }
+  }
+}
+
+function checkReverseDiagnal(board, player, x, y) {
+  if (y < 3 && x < 4) {
+
+    var reversedBoard = board.reverse();
+    var start = startingPoint(reverseX(x)+y);
+    var result ='';
+    var j = start[1];
+    for(var i = start[0]; i < 6; i++){
+      result += reversedBoard[i][j];
+      if (i == 6 || j ==0){
+        break;
+      }
+      j --;
+    }
+    if (result.match(Array(5).join(player))){
+      $('#winner').html(player+' wins!');
+    }
+  }
+}
+
+function reverseX(x) {
+  switch(x) {
+    case 2:
+      return 4;
+      break;
+    case 1:
+      return 5;
+      break;
+    case 0:
+      return 6;
+      break;
+    default:
+      return 3;
+      break;
   }
 }
 
